@@ -30,3 +30,57 @@
 <ul>
 	<li><code>-2<sup>31</sup> &lt;= x &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
+
+# Reverse Integer
+
+## Problem
+Given a signed 32-bit integer `x`, return `x` with its digits reversed.
+
+If reversing `x` causes the value to go outside the 32-bit integer range, return `0`.
+
+## Approach
+
+We repeatedly take the last digit of the number using:
+
+`x % 10`
+
+Then remove that digit using:
+
+`x / 10`
+
+We add the extracted digit to the reversed number:
+
+`reverse = reverse * 10 + digit`
+
+Before adding the digit, we check whether the operation will cause integer overflow.
+
+## Example
+
+Input:
+
+123
+
+Step 1:
+
+digit = 3  
+reverse = 3
+
+Step 2:
+
+digit = 2  
+reverse = 32
+
+Step 3:
+
+digit = 1  
+reverse = 321
+
+Output:
+
+321
+
+## Complexity
+
+**Time Complexity:** O(log n)
+
+**Space Complexity:** O(1)
