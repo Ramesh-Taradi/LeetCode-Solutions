@@ -1,58 +1,113 @@
-<h2><a href="https://leetcode.com/problems/remove-element">Remove Element</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Given an integer array <code>nums</code> and an integer <code>val</code>, remove all occurrences of <code>val</code> in <code>nums</code> <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a>. The order of the elements may be changed. Then return <em>the number of elements in </em><code>nums</code><em> which are not equal to </em><code>val</code>.</p>
+# Remove Element
 
-<p>Consider the number of elements in <code>nums</code> which are not equal to <code>val</code> be <code>k</code>, to get accepted, you need to do the following things:</p>
+## Problem
 
-<ul>
-	<li>Change the array <code>nums</code> such that the first <code>k</code> elements of <code>nums</code> contain the elements which are not equal to <code>val</code>. The remaining elements of <code>nums</code> are not important as well as the size of <code>nums</code>.</li>
-	<li>Return <code>k</code>.</li>
-</ul>
+Given an integer array `nums` and an integer `val`, remove all occurrences of `val` from the array **in-place**.
 
-<p><strong>Custom Judge:</strong></p>
+The order of the remaining elements can be changed.
 
-<p>The judge will test your solution with the following code:</p>
+Return the number of elements in `nums` that are **not equal to `val`**.
 
-<pre>
-int[] nums = [...]; // Input array
-int val = ...; // Value to remove
-int[] expectedNums = [...]; // The expected answer with correct length.
-                            // It is sorted with no values equaling val.
+The first `k` elements of `nums` should contain all the elements that are not equal to `val`, where `k` is the returned value.
 
-int k = removeElement(nums, val); // Calls your implementation
+---
 
-assert k == expectedNums.length;
-sort(nums, 0, k); // Sort the first k elements of nums
-for (int i = 0; i &lt; actualLength; i++) {
-    assert nums[i] == expectedNums[i];
+## Approach
+
+We use a **two-pointer approach**.
+
+* `i` is used to traverse every element in the array.
+* `k` keeps track of the position where the next valid element should be placed.
+
+While traversing the array:
+
+1. Check whether `nums[i]` is equal to `val`.
+2. If it is equal to `val`, skip it.
+3. If it is not equal to `val`, copy it to `nums[k]`.
+4. Increment `k`.
+5. After the loop, `k` represents the number of elements that are not equal to `val`.
+
+---
+
+## Solution
+
+```java
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int k = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != val) {
+                nums[k] = nums[i];
+                k++;
+            }
+        }
+
+        return k;
+    }
 }
-</pre>
+```
 
-<p>If all assertions pass, then your solution will be <strong>accepted</strong>.</p>
+---
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+## Step-by-Step Dry Run
 
-<pre>
-<strong>Input:</strong> nums = [3,2,2,3], val = 3
-<strong>Output:</strong> 2, nums = [2,2,_,_]
-<strong>Explanation:</strong> Your function should return k = 2, with the first two elements of nums being 2.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
+### Example
 
-<p><strong class="example">Example 2:</strong></p>
+```text
+nums = [3, 2, 2, 3]
+val = 3
+```
 
-<pre>
-<strong>Input:</strong> nums = [0,1,2,2,3,0,4,2], val = 2
-<strong>Output:</strong> 5, nums = [0,1,4,0,3,_,_,_]
-<strong>Explanation:</strong> Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
-Note that the five elements can be returned in any order.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
+Initially:
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+```text
+k = 0
+```
 
-<ul>
-	<li><code>0 &lt;= nums.length &lt;= 100</code></li>
-	<li><code>0 &lt;= nums[i] &lt;= 50</code></li>
-	<li><code>0 &lt;= val &lt;= 100</code></li>
-</ul>
+| i | nums[i] | Condition  | Action        | Array       | k |
+| - | ------- | ---------- | ------------- | ----------- | - |
+| 0 | 3       | `3 == val` | Skip          | `[3,2,2,3]` | 0 |
+| 1 | 2       | `2 != val` | `nums[0] = 2` | `[2,2,2,3]` | 1 |
+| 2 | 2       | `2 != val` | `nums[1] = 2` | `[2,2,2,3]` | 2 |
+| 3 | 3       | `3 == val` | Skip          | `[2,2,2,3]` | 2 |
+
+Finally:
+
+```text
+k = 2
+```
+
+The first `k` elements are:
+
+```text
+[2, 2]
+```
+
+So the output is:
+
+```text
+2
+```
+
+Anything after index `k - 1` does not matter.
+
+---
+
+## Time Complexity
+
+```text
+O(n)
+```
+
+We traverse the array only once.
+
+---
+
+## Space Complexity
+
+```text
+O(1)
+```
+
+We modify the original array without using any extra data structure.
